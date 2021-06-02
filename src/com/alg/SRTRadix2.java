@@ -166,7 +166,7 @@ public class SRTRadix2 extends ArithmeticUnit{
         }
 
         if(P.bits[P.bitNumber-1] == 1){
-            System.out.println("P value is < 0, P = P+B , A = A-1");
+            System.out.println("CORRECTION STEP:    P value is < 0, P = P+B , A = A-1");
             P.addRegister(M);
             _A.bits[0] = 1;
             _A.updateValue();
