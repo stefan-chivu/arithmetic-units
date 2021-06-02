@@ -52,6 +52,16 @@ public class Register {
         this.setBits(this.value);
     }
 
+    public void rightLogicalShift(int bitNo){
+        while(bitNo-- !=0){
+            for(int i = 0 ; i<bitNumber-1; i++){
+                bits[i] = bits[i+1];
+            }
+            bits[bitNumber-1] = 0;
+            this.updateValue();
+        }
+    }
+
     public void rightArithmeticalChainShift(int bitNo, Register chain) throws IOException {
         if(chain != null){
             while(bitNo-- != 0){
@@ -61,6 +71,17 @@ public class Register {
                 this.rightArithmeticalShift(1);
             }
         }
+    }
+
+    public void leftShift(int bitNo){
+        this.value = (this.value<<bitNo);
+        this.value = this.value % (int) Math.pow(2,this.bitNumber);
+        try {
+            this.setBits(this.value);
+        }catch (IOException e){
+            System.out.println(e);
+        }
+        this.updateValue();
     }
 
     public void updateValue(){

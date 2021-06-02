@@ -26,12 +26,23 @@ public class Main {
         br4.printResult();
     }
 
+    public static void SRT2(int x, int y){
+        SRTRadix2 srt2 = new SRTRadix2(8, x, y);
+        srt2.calculateResult();
+        srt2.printResult();
+    }
+
     public static void printMenu(){
         System.out.println("\n\nChoose operation:");
         System.out.println("\t1.Booth");
         System.out.println("\t2.Booth Modified");
         System.out.println("\t3.Booth Radix-4");
+        System.out.println("\t4.SRT Radix-2");
         System.out.print("\tOPT:");
+    }
+
+    public static void test(){
+
     }
 
     public static void main(String[] args) {
@@ -77,7 +88,19 @@ public class Main {
                         y = opt;
                         BoothRadix4(x,y);
                         break;
+                    case 4:
+                        System.out.print("\nx = ");
+                        optStr = br.readLine();
+                        opt = Integer.parseInt(optStr);
+                        x = opt;
+                        System.out.print("y = ");
+                        optStr = br.readLine();
+                        opt = Integer.parseInt(optStr);
+                        y = opt;
+                        SRT2(x,y);
+                        break;
                     default:
+                        test();
                         exit = true;
                         break;
                 }
