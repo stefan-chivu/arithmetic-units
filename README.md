@@ -9,4 +9,4 @@ This project aims to deliver a step-by-step presentation of how the following ar
 
   Dividers:
   * __SRT Radix-2__<br/>
-  * _SRT Radix-4_ `(in progress)`<br/>
+  * __SRT Radix-4__<br/>
