@@ -464,6 +464,7 @@ public class SRTRadix4 extends ArithmeticUnit {
 
         A.leftShift(2);
         _A.leftShift(2);
+        System.out.print("\n");
     }
 
     private void addM1(){
@@ -471,13 +472,20 @@ public class SRTRadix4 extends ArithmeticUnit {
         P.bits[1] = A.bits[A.bitNumber-1];
         P.bits[0] = A.bits[A.bitNumber-2];
         P.updateValue();
-        P.addRegister(M);
-
         A.leftShift(2);
         _A.leftShift(2);
         _A.bits[1] = 0;
         _A.bits[0] = 1;
         _A.updateValue();
+
+        System.out.print("\n");
+        printLine();
+        System.out.print("\n|    |+"+ M.getBits() +" |          |          |\n");
+        System.out.print("|    |___________|          |          |\n");
+
+        P.addRegister(M);
+
+
     }
 
     private void addM2(){
@@ -485,13 +493,19 @@ public class SRTRadix4 extends ArithmeticUnit {
         P.bits[1] = A.bits[A.bitNumber-1];
         P.bits[0] = A.bits[A.bitNumber-2];
         P.updateValue();
-        P.addRegister(M2);
-
         A.leftShift(2);
         _A.leftShift(2);
         _A.bits[1] = 1;
         _A.bits[0] = 0;
         _A.updateValue();
+
+        System.out.print("\n");
+        printLine();
+        System.out.print("\n");
+        System.out.print("|    |+"+ M2.getBits() +" |          |          |\n");
+        System.out.print("|    |___________|          |          |\n");
+
+        P.addRegister(M2);
     }
 
     private void add_M1(){
@@ -499,13 +513,19 @@ public class SRTRadix4 extends ArithmeticUnit {
         P.bits[1] = A.bits[A.bitNumber-1];
         P.bits[0] = A.bits[A.bitNumber-2];
         P.updateValue();
-        P.addRegister(_M);
-
         A.leftShift(2);
         _A.leftShift(2);
         A.bits[1] = 0;
         A.bits[0] = 1;
         A.updateValue();
+
+        System.out.print("\n");
+        printLine();
+        System.out.print("\n");
+        System.out.print("|    |+"+ _M.getBits() +" |          |          |\n");
+        System.out.print("|    |___________|          |          |\n");
+
+        P.addRegister(_M);
     }
 
     private void add_M2(){
@@ -513,13 +533,19 @@ public class SRTRadix4 extends ArithmeticUnit {
         P.bits[1] = A.bits[A.bitNumber-1];
         P.bits[0] = A.bits[A.bitNumber-2];
         P.updateValue();
-        P.addRegister(_M2);
-
         A.leftShift(2);
         _A.leftShift(2);
         A.bits[1] = 1;
         A.bits[0] = 0;
         A.updateValue();
+
+        System.out.print("\n");
+        printLine();
+        System.out.print("\n");
+        System.out.print("|    |+"+ _M2.getBits() +" |          |          |\n");
+        System.out.print("|    |___________|          |          |\n");
+
+        P.addRegister(_M2);
     }
 
     @Override
@@ -553,26 +579,36 @@ public class SRTRadix4 extends ArithmeticUnit {
             OP = getOP();
             switch (OP){
                 case 2:
+                    printLine();
+                    System.out.print(" q_"+i+" = "+ OP + " => shift then P = P-2B");
                     add_M2();
                     printLine();
                     printSeparator();
                     break;
                 case 1:
+                    printLine();
+                    System.out.print(" q_"+i+" = "+ OP + " => shift then P = P-B");
                     add_M1();
                     printLine();
                     printSeparator();
                     break;
                 case 0:
+                    printLine();
+                    System.out.print(" q_"+i+" = "+ OP + " => shift only");
                     shiftOnly();
                     printLine();
                     printSeparator();
                     break;
                 case -1:
+                    printLine();
+                    System.out.print(" q_"+i+" = "+ OP + " => shift then P = P+B");
                     addM1();
                     printLine();
                     printSeparator();
                     break;
                 case -2:
+                    printLine();
+                    System.out.print(" q_"+i+" = "+ OP + " => shift then P = P+2B");
                     addM2();
                     printLine();
                     printSeparator();

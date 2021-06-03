@@ -18,10 +18,10 @@ public class BoothRadix4 extends ArithmeticUnit{
         this.CNT_MAX = 4;
         this.A = new Register(operandBits+1);
         this.Q = new Register(operandBits);
-        this.M = new Register(operandBits);
-        this._M = new Register(operandBits);
-        this.M2 = new Register(operandBits);
-        this._M2 = new Register(operandBits);
+        this.M = new Register(operandBits+1);
+        this._M = new Register(operandBits+1);
+        this.M2 = new Register(operandBits+1);
+        this._M2 = new Register(operandBits+1);
         this.CNT = new Register(2);
         q_1 = 0;
         try {
@@ -36,20 +36,23 @@ public class BoothRadix4 extends ArithmeticUnit{
     }
 
     private void printHeader(){
-        System.out.println("| CNT | \tA\t |\t\tQ\t|  Q[-1] | \t\tM\t|");
+        System.out.print("| CNT | \tA\t |\t\tQ\t|  Q[-1] | \t\tM\t|");
     }
 
     private void printSeparator(){
-        String res = "";
-        for(int i = 0; i<50; i++){
+        String res = "\n";
+        for(int i = 0; i<55; i++){
             res+="-";
         }
         System.out.println(res);
     }
 
     private void printLine(){
-        System.out.println("| "+CNT.getBits()+" | " + A.getBits() + " | "+ Q.getBits() + " |    "+ q_1 + "   | "+ M.getBits() + " | " );
-        printSeparator();
+        System.out.print("| "+CNT.getBits()+" | " + A.getBits() + " | "+ Q.getBits() + " |    "+ q_1 + "   | "+ M.getBits() + " | " );
+    }
+
+    private void printA(){
+        System.out.print("|    | " + A.getBits() + " | "+ Q.getBits() +" |        |          |   now RSHIFT\n" );
     }
 
     @Override
@@ -69,32 +72,55 @@ public class BoothRadix4 extends ArithmeticUnit{
                 switch (OP){
                     case "001":
                     case "010":
+                        printLine();
+                        System.out.print(" Q[1]Q[0]Q[-1] = "+ OP +" : A = A+M");
+                        System.out.print("\n|    |+"+M.getBits()+" |\t\t \t|        | \t\t \t|");
+                        System.out.print("\n|    |___________|\t\t \t|        | \t\t \t|\n");
                         A.addRegister(M);
                         q_1 = Q.bits[1];
+                        printA();
                         A.rightArithmeticalChainShift(2,Q);
                         break;
                     case "011":
+                        printLine();
+                        System.out.print(" Q[1]Q[0]Q[-1] = "+ OP +" : A = A+2M");
+                        System.out.print("\n|    |+"+M2.getBits()+" |\t\t \t|        | \t\t \t|");
+                        System.out.print("\n|    |___________|\t\t \t|        | \t\t \t|\n");
                         A.addRegister(M2);
                         q_1 = Q.bits[1];
+                        printA();
                         A.rightArithmeticalChainShift(2,Q);
                         break;
                     case "100":
+                        printLine();
+                        System.out.print(" Q[1]Q[0]Q[-1] = "+ OP +" : A = A-2M");
+                        System.out.print("\n|    |+"+_M2.getBits()+" |\t\t \t|        | \t\t \t|");
+                        System.out.print("\n|    |___________|\t\t \t|        | \t\t \t|\n");
                         A.addRegister(_M2);
                         q_1 = Q.bits[1];
+                        printA();
                         A.rightArithmeticalChainShift(2,Q);
                         break;
                     case "101":
                     case "110":
+                        printLine();
+                        System.out.print(" Q[1]Q[0]Q[-1] = "+ OP +" : A = A-M");
+                        System.out.print("\n|    |+"+_M.getBits()+" |\t\t \t|        | \t\t \t|");
+                        System.out.print("\n|    |___________|\t\t \t|        | \t\t \t|\n");
                         A.addRegister(_M);
                         q_1 = Q.bits[1];
+                        printA();
                         A.rightArithmeticalChainShift(2,Q);
                         break;
                     default:
+                        printLine();
+                        System.out.print(" Q[1]Q[0]Q[-1] = "+ OP +" : shift only\n");
                         q_1 = Q.bits[1];
                         A.rightArithmeticalChainShift(2,Q);
                         break;
                 }
                 printLine();
+                printSeparator();
             }catch(Exception e){
                 System.out.println(e);
             }
@@ -116,5 +142,10 @@ public class BoothRadix4 extends ArithmeticUnit{
 
     public void printResult(){
         System.out.println(opA + " * " + opB + " = " + result);
+        if(opA*opB == result){
+            System.out.println("CORRECT");
+        }else{
+            System.out.println("FALSE");
+        }
     }
 }

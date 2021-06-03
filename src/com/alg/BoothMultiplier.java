@@ -30,11 +30,11 @@ public class BoothMultiplier extends ArithmeticUnit{
     }
 
     private void printHeader(){
-        System.out.println("| CNT | \tA\t |\t\tQ\t|  Q[-1] | \t\tM\t|");
+        System.out.print("| CNT | \tA\t |\t\tQ\t|  Q[-1] | \t\tM\t|    OP");
     }
 
     private void printSeparator(){
-        String res = "";
+        String res = "\n";
         for(int i = 0; i<50; i++){
             res+="-";
         }
@@ -42,8 +42,11 @@ public class BoothMultiplier extends ArithmeticUnit{
     }
 
     private void printLine(){
-        System.out.println("| "+CNT.getBits()+" | " + A.getBits() + " | "+ Q.getBits() + " |    "+ q_1 + "   | "+ M.getBits() + " | " );
-        printSeparator();
+        System.out.print("| "+CNT.getBits()+" | " + A.getBits() + " | "+ Q.getBits() + " |    "+ q_1 + "   | "+ M.getBits() + " | " );
+    }
+
+    private void printA(){
+        System.out.print("|     | " + A.getBits() + " | "+ Q.getBits() +" |        |          |   now RSHIFT\n" );
     }
 
     @Override
@@ -59,21 +62,38 @@ public class BoothMultiplier extends ArithmeticUnit{
                 OP = Q.bits[0] + "" + q_1;
                 switch (OP){
                     case "01":
+                        printLine();
+                        System.out.print("Q[0]Q[-1] = 01 : A = A+M");
+                        System.out.print("\n|     |+"+M.getBits()+" |\t\t \t|        | \t\t \t|");
+                        System.out.print("\n|     |__________|\t\t \t|        | \t\t \t|\n");
                         A.addRegister(M);
                         q_1 = Q.bits[0];
+                        printA();
                         A.rightArithmeticalChainShift(1,Q);
+                        printLine();
+                        printSeparator();
                         break;
                     case "10":
+                        printLine();
+                        System.out.print("Q[0]Q[-1] = 10 : A = A-M");
+                        System.out.print("\n|     |+"+_M.getBits()+" |\t\t \t|        | \t\t \t|");
+                        System.out.print("\n|     |__________|\t\t \t|        | \t\t \t|\n");
                         A.addRegister(_M);
                         q_1 = Q.bits[0];
+                        printA();
                         A.rightArithmeticalChainShift(1,Q);
+                        printLine();
+                        printSeparator();
                         break;
                     default:
+                        printLine();
+                        System.out.print("Q[0]Q[-1] = 00 || 11 - shift only\n");
                         q_1 = Q.bits[0];
                         A.rightArithmeticalChainShift(1,Q);
+                        printLine();
+                        printSeparator();
                         break;
                 }
-                printLine();
             }catch(Exception e){
                 System.out.println(e);
             }
@@ -94,5 +114,10 @@ public class BoothMultiplier extends ArithmeticUnit{
 
     public void printResult(){
         System.out.println(opA + " * " + opB + " = " + result);
+        if(opA*opB == result){
+            System.out.println("CORRECT");
+        }else{
+            System.out.println("FALSE");
+        }
     }
 }

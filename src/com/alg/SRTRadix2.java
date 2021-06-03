@@ -62,7 +62,7 @@ public class SRTRadix2 extends ArithmeticUnit{
         A.bits[0] = 0;
     }
 
-    private void sub_step(){
+    private void sub_step(int i){
         P.leftShift(1);
         P.bits[0] = A.bits[A.bitNumber-1];
         P.updateValue();
@@ -70,10 +70,14 @@ public class SRTRadix2 extends ArithmeticUnit{
         A.bits[0] = 1;
         A.updateValue();
         _A.leftShift(1);
+        printLine();
+        System.out.print("\n");
+        System.out.print("|     |+"+ _M.getBits() +" |          |          |\n");
+        System.out.print("|     |___________|          |          |\n");
         P.addRegister(_M);
     }
 
-    private void add_step(){
+    private void add_step(int i){
         P.leftShift(1);
         P.bits[0] = A.bits[A.bitNumber-1];
         P.updateValue();
@@ -81,6 +85,10 @@ public class SRTRadix2 extends ArithmeticUnit{
         _A.leftShift(1);
         _A.bits[0] = 1;
         _A.updateValue();
+        printLine();
+        System.out.print("\n");
+        System.out.print("|     |+"+ M.getBits() +" |          |          |\n");
+        System.out.print("|     |___________|          |          |\n");
         P.addRegister(M);
     }
 
@@ -120,11 +128,11 @@ public class SRTRadix2 extends ArithmeticUnit{
         }
 
         //LSHIFT k bits
-        System.out.print(" " +  k + " bits LSHIFT");
-        printSeparator();
+        System.out.print(" " +  k + " bits LSHIFT\n");
+        //printSeparator();
         shiftLeftChainPAB(k);
-        printLine();
-        printSeparator();
+        //printLine();
+        //printSeparator();
 
         for(int i = 0 ; i<cntMax ; i++){
             try {
@@ -134,28 +142,33 @@ public class SRTRadix2 extends ArithmeticUnit{
                 switch (OP){
                     case "000":
                     case "111":
+                        printLine();
                         q_i = 0;
+                        System.out.print( " q_"+ i + " = "+ q_i + " ; => shift only, A[0] = 0\n");
+
                         shift_step();
                         printLine();
-                        System.out.print( " q_"+ i + " = "+ q_i + " ; => shift only, A[0] = 0");
                         printSeparator();
                         break;
                     case "001":
                     case "010":
                     case "011":
-                        q_i = 1;
-                        sub_step();
                         printLine();
-                        System.out.print( " q_"+ i + " = "+ q_i + " ; => P = P-B , A[0] = 1");
+                        //q_i = 1;
+                        System.out.print( " q_"+ i + " = "+ 1 + " ; => P = P-B , A[0] = 1\n");
+
+                        sub_step(i);
+                        printLine();
                         printSeparator();
                         break;
                     case "100":
                     case "101":
                     case "110":
-                        q_i = -1;
-                        add_step();
+                        //q_i = -1;
                         printLine();
-                        System.out.print( " q_"+ i + " = "+ q_i + " ; => P = P+B, _A[0] = 1");
+                        System.out.print( " q_"+ i + " = "+ -1 + " ; => P = P+B, _A[0] = 1");
+
+                        add_step(i);
                         printSeparator();
                         break;
                 }
