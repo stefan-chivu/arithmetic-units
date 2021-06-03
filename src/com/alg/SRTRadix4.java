@@ -652,6 +652,11 @@ public class SRTRadix4 extends ArithmeticUnit {
 
         if(bitArray[5] == 1){
             isNegative = true;
+            //try {
+            //    aux.setBits(aux.getValue()-1);
+            //} catch (IOException e) {
+            //    e.printStackTrace();
+            //}
             for(int i = 0; i<6; i++){
                 if(aux.bits[i] == 0){
                     aux.bits[i] = 1;
@@ -660,7 +665,7 @@ public class SRTRadix4 extends ArithmeticUnit {
                 }
             }
             aux.updateValue();
-            return aux.getValue()*(-1);
+            return (aux.getValue()+1)*(-1);
         }
 
         for(int i = 0; i<6 ; i++){
