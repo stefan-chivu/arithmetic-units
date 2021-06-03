@@ -206,5 +206,11 @@ public class SRTRadix2 extends ArithmeticUnit{
         System.out.println("Q = A - _A\nQ: " + Q.getBits() + " = " + Q.getValue() + " (quotient)");
         System.out.println("P: " + P.getBits() + " = " + P.getValue() + " (remainder)");
         System.out.println("\n" + opA + " / " + opB + " = " + result + " r " + P.getValue());
+
+        if(Q.getValue()*result + P.getValue() != opA){
+            System.out.println("CORRECT");
+        }else{
+            System.out.println("FALSE");
+        }
     }
 }
