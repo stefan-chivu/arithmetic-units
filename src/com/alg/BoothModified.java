@@ -58,6 +58,7 @@ public class BoothModified extends ArithmeticUnit{
         printSeparator();
         //printLine();
         for(int i = 0 ; i < CNT_MAX; i++){
+            OVR = 0;
             try {
                 CNT.setBits(i);
                 OP = Q.bits[1] + "" + Q.bits[0] + "" + R;

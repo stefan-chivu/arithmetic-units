@@ -107,7 +107,12 @@ public class Register {
         int OVR = 0;
         if((this.value + R.value > ((int)Math.pow(2,bitNumber-1))) || (this.value + R.value<(-1)*((int)Math.pow(2,bitNumber-1)))){
             OVR = 1;
-            this.value = (this.value + R.value) % (int)Math.pow(2,bitNumber-1);
+            this.value = (this.value + R.value) % (int)Math.pow(2,bitNumber);
+            try {
+                this.setBits(this.value);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return OVR;
         }
         this.addRegister(R);
